@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buritis - Pontos Turisticos</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""/>
+
+    <link rel="stylesheet" href="bootstrap-5.3.1-dist/css/bootstrap.min.css">
+   <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="menu-lateral" class="container">
+        
+        <div class="list-group" id="menu">
+            <h4>Pontos Turísticos Buritis-MG</h4>
+            <button type="button" id="cachoeiraBtn" class="list-group-item list-group-item-action">Cachoeira</button>
+            <button type="button" id="igrejinhaBtn" class="list-group-item list-group-item-action">Igrejinha</button>
+            <button type="button" id="igrejaMatrizBtn" class="list-group-item list-group-item-action">Igreja Matriz</button>
+        </div>
+
+        <div id="buttonsCore">
+          <button type="button" id="botaoVoltar"class="btn btn-light">Voltar</button>
+          <button type="button" id="botaoNavegar"class="btn btn-primary">Traçar rota até</button>
+          <button type="button" id="botaoVoltarRota"class="btn btn-light">Voltar</button>
+        </div>
+        
+        <div id="localizationFormat">
+          <h4>Forma de Localização</h4>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="radioLocalization" id="radioAuto" checked>
+            <label class="form-check-label" for="radioLocalization">
+              Automática
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="radioLocalization" id="radioManual">
+            <label class="form-check-label" for="flexRadioDefault1" id="radioMarker">
+              Manual
+            </label>
+          </div>
+        </div>
+        <div id="msgManual">
+          <p>Arraste o marcador em vermelho para selecionar sua Localização</p>
+        </div>
+
+        <div id="igrejinha" class="exibirDesc">
+          <img src="igrejinha.jpg">
+          <p>A primeira igreja da cidade</p>
+        </div>
+
+        <div id="cachoeira" class="exibirDesc">
+          <img src="cachoeira.jpg">
+          <p>Cachoeira do Rio Urucuia</p>
+        </div>
+
+        <div id="igrejaMatriz" class="exibirDesc">
+          <h4 class="titleCenter">Igreja Matriz Nossa Senhora da Pena</h4>
+          <img src="igrejaMatriz.jpg">
+          <p>A Igreja Matriz é uma das primeiras Igrejas da cidade de Buritis MG, tendo como religião a Católica, a parede da parte da frente da igreja é rebocada com pedras coloridas e é um ícone da cidade de Buritis-MG</p>
+        </div>
+
+    </div>
+    <div id="map"></div>
+
+    <script src="https://code.jquery.com/jquery-3.2.0.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""></script>
+    <script src="js/main.js" defer></script>
+</body>
+</html>
