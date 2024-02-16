@@ -1,4 +1,4 @@
-var geoserverUrl = "http://127.0.0.1:8082/geoserver";
+var geoserverUrl = "http://localhost:8082/geoserver";
 const center = [-15.6277,  -46.4242];
 var lati = 0
 var longi = 0;
