@@ -59,9 +59,9 @@ var map = L.map('map', {
 });
 
 
-L.tileLayer('http://localhost/tile/{z}/{x}/{y}.png', {
+L.tileLayer('http://localhost:8080/tile/{z}/{x}/{y}.png', {
     maxZoom: 19,
-    attribution: '© OpenStreetMap'
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
 layerGroup = L.layerGroup();
