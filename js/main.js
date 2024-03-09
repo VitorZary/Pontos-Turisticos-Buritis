@@ -4,45 +4,20 @@ var lati = 0
 var longi = 0;
 var pathLayer = L.geoJSON(null);
 
-var markerHtmlStyles = `
-  background-color: #0000FF;
-  width: 2.5rem;
-  height: 2.5rem;
-  display: block;
-  left: -1rem;
-  top: -1.5rem;
-  position: relative;
-  border-radius: 3rem 3rem 0;
-  transform: rotate(45deg);
-  border: 1px solid #FFFFFF`;
-
-const icon = L.divIcon({
-  className: "my-custom-pin",
-  iconAnchor: [0, 24],
-  labelAnchor: [-6, 0],
-  popupAnchor: [0, -36],
-  html: `<span style="${markerHtmlStyles}" />`
+var icon = L.icon({
+    iconUrl: 'icons/marker-red.png',
+    iconSize: [45, 45], 
+    iconAnchor: [22, 45],
+    popupAnchor: [22, 22],
 });
 
-markerHtmlStyles = `
-  background-color: #FF0000;
-  width: 2.5rem;
-  height: 2.5rem;
-  display: block;
-  left: -1rem;
-  top: -1.5rem;
-  position: relative;
-  border-radius: 3rem 3rem 0;
-  transform: rotate(45deg);
-  border: 1px solid #FFFFFF`;
-
-const icon2 = L.divIcon({
-    className: "my-custom-pin",
-    iconAnchor: [0, 24],
-    labelAnchor: [-6, 0],
-    popupAnchor: [0, -36],
-    html: `<span style="${markerHtmlStyles}" />`
+var icon2 = L.icon({
+    iconUrl: 'icons/marker-blue.png',
+    iconSize: [45, 45], 
+    iconAnchor: [22, 45],
+    popupAnchor: [22, 22],
 });
+
 var layerGroup;
 var marker;
 var marker2;
@@ -178,6 +153,7 @@ botaoCachoeira.addEventListener("click", function(){
     });
     layerGroup.addTo(map);
     layerGroup.addLayer(marker);
+    mostrarPassadores();
 });
 
 botaoIgrejinha.addEventListener("click", function(){
@@ -193,6 +169,7 @@ botaoIgrejinha.addEventListener("click", function(){
     });
     layerGroup.addTo(map);
     layerGroup.addLayer(marker);
+    mostrarPassadores();
 });
 
 botaoIgrejaMatriz.addEventListener("click", function(){
@@ -208,6 +185,7 @@ botaoIgrejaMatriz.addEventListener("click", function(){
     });
     layerGroup.addTo(map);
     layerGroup.addLayer(marker);
+    mostrarPassadores();
 });
 
 
@@ -225,6 +203,7 @@ botaoNavegar.addEventListener("click", function(){
     if(manual == true){
         divMsgManual.style.display = "block";
     }
+    esconderPassadores();
 })
 
 botaoVoltarRota.addEventListener("click", function(){
@@ -262,6 +241,7 @@ botaoVoltar.addEventListener("click", function(){
     map.removeLayer(layerGroup);
     layerGroup = L.layerGroup();
     map.setView(center, 15, {animate: true});
+    esconderPassadores();
 })
 
 function esconderMenu(){
@@ -289,3 +269,35 @@ radioManual.addEventListener("change", () => {
     }
     botaoNavegar.click();
 })
+
+
+var buttonHide = document.getElementById("btnHide");
+
+buttonHide.addEventListener("click", function(){
+    let contents = buttonHide.innerHTML;
+    console.log(contents);
+    if(contents == `<img src="icons/seta-direita.png">`){
+        buttonHide.innerHTML = `<img src="icons/seta-esquerda.png">`;
+        setTimeout(function toggleElements(){
+            document.getElementById("conteudo-menu-lat").classList.toggle('hide-menu-lateral1');
+        }, 500);
+    }else{
+        buttonHide.innerHTML = `<img src="icons/seta-direita.png">`;
+        document.getElementById("conteudo-menu-lat").classList.toggle('hide-menu-lateral1');
+    }
+    document.getElementById("menu-lateral").classList.toggle('hide-menu-lateral');
+    document.getElementById("mapa").classList.toggle('hide-menu-lateral2');
+    buttonHide.classList.toggle('hide-menu-lateral3');
+});
+
+function toggleElements(){
+    document.getElementById("conteudo-menu-lat").classList.toggle('hide-menu-lateral1');
+}
+
+function mostrarPassadores(){
+    document.getElementById("botoesPass").style.display = "flex";
+}
+
+function esconderPassadores(){
+    document.getElementById("botoesPass").style.display = "none";
+}

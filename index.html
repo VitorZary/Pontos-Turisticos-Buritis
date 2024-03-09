@@ -13,15 +13,17 @@
    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div id="menu-lateral" class="container">
-        
-        <div class="list-group" id="menu">
-            <h4>Pontos Turísticos Buritis-MG</h4>
-            <button type="button" id="cachoeiraBtn" class="list-group-item list-group-item-action">Cachoeira</button>
-            <button type="button" id="igrejinhaBtn" class="list-group-item list-group-item-action">Igrejinha</button>
-            <button type="button" id="igrejaMatrizBtn" class="list-group-item list-group-item-action">Igreja Matriz Nossa Senhora da Pena</button>
+    <div id="menu-lateral" class="rounded">
+      <div id="conteudo-menu-lat" class="container">
+        <div id="menu"> 
+        <h4 id="title">Pontos Turísticos <span>BURITIS-MG</span></h4>
+          <div class="list-group rounded">
+              <button type="button" id="cachoeiraBtn" class="list-group-item list-group-item-action">Cachoeira da Barriguda</button>
+              <button type="button" id="igrejinhaBtn" class="list-group-item list-group-item-action">Igrejinha</button>
+              <button type="button" id="igrejaMatrizBtn" class="list-group-item list-group-item-action">Igreja Matriz Nossa Senhora da Pena</button>
+          </div>
         </div>
-
+    
         <div id="buttonsCore">
           <button type="button" id="botaoVoltar"class="btn btn-light">Voltar</button>
           <button type="button" id="botaoNavegar"class="btn btn-primary">Traçar rota até</button>
@@ -44,27 +46,46 @@
           </div>
         </div>
         <div id="msgManual">
-          <p>Arraste o marcador em vermelho para selecionar sua Localização</p>
+          <p>Arraste o marcador em azul para selecionar sua Localização</p>
         </div>
 
         <div id="igrejinha" class="exibirDesc">
-          <img src="igrejinha.jpg">
-          <p>Umas das primeiras igrejas da cidade de Buritis.</p>
+          <h4 class="titleCenter">Igrejinha</h4>
+          <div class="imag">
+            <img src="images/igrejinha.jpg">
+          </div>
+          <p>A primeira igreja da cidade de Buritis.</p>
         </div>
 
         <div id="cachoeira" class="exibirDesc">
-          <img src="cachoeiraBarriguda.jpg">
+          <h4 class="titleCenter">Cachoeira da Barriguda</h4>
+          <div class="imag">
+            <img src="images/cachoeiraBarriguda.jpg">
+          </div>
           <p>Cachoeira da Barriguda</p>
         </div>
 
         <div id="igrejaMatriz" class="exibirDesc">
           <h4 class="titleCenter">Igreja Matriz Nossa Senhora da Pena</h4>
-          <img src="igrejaMatriz.jpg">
-          <p>A Igreja Matriz tem como religião a Católica, a parede da parte da frente da igreja é rebocada com pedras coloridas e fica localizada no bairro Centro da cidade de Buritis-MG</p>
+          <div class="imag">
+            <img src="images/igrejaMatriz.jpg">
+          </div>
+          <p>A Igreja Matriz Nossa Senhora da Pena tem como religião a Católica, suas paredes externas são rebocadas com pedras coloridas e fica localizada no bairro Centro da cidade de Buritis-MG</p>
         </div>
 
+        <div id="botoesPass">
+          <button id="botaoEsq"><img src="icons/seta-esquerda.png"></button>
+          <button id="botaoDir"><img src="icons/seta-direita.png"></button>
+        </div>
+
+      </div>
     </div>
-    <div id="map"></div>
+
+    <div id="mapa">
+      <button type="button" id="btnHide"><img src="icons/seta-esquerda.png"></button>
+      <div id="map"></div>
+    </div>
+    
 
     <script src="https://code.jquery.com/jquery-3.2.0.min.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"

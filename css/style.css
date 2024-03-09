@@ -4,19 +4,45 @@ body{
     padding: 0;
 }
 
-html, body, #map {
+html, body {
     height: 100%;
-    width: 100%; 
+    width: 100%;
+}
+
+#mapa{
+    position: relative;
+    right: 5px;
+    height: 100%; 
+    width: 70%;
+    z-index: 1;
+}
+
+#map {
+    height: 100%; 
+    width: 100%;
+    z-index: 1;
 }
 
 #menu-lateral{
-    background-color: white;
-    height: 100%;
-    width: 40%;
-    border-radius: 20px;
+    position: relative;
+    display: flex;
+    background-color: rgb(253, 253, 253);
+    width: 30%;
+    flex-direction: column;
+    z-index: 2;
+    transition: all 0.5s;
+    min-height: 0;
 }
 
-h4{
+#conteudo-menu-lat{
+    width: 100%;
+    transition-delay: 1s;
+    transition-property: display;
+    display: block;
+    background-color: rgb(253, 253, 253);
+}
+
+#title{
     margin-bottom: 20px;
 }
 
@@ -28,9 +54,14 @@ h4{
     display: none;
 }
 
-img{
-    width: 100%;
-    height: 260px;
+.exibirDesc > .imag {
+    display: flex;
+    justify-content: center;
+}
+
+.exibirDesc > .imag > img{
+    max-height: 40vh;
+    max-width: 95%;
 }
 
 .exibirDesc, .exibirDesc > p{
@@ -39,6 +70,7 @@ img{
 
 .exibirDesc > h4 {
     font-size: 22px;
+    margin-bottom: 20px;
 }
 
 #buttonsCore {
@@ -52,4 +84,85 @@ img{
 
 .titleCenter{
     text-align: center;
+}
+
+#btnHide{
+    margin: 0px;
+    padding: 0px;
+    position: absolute;
+    top: 45%;
+    left: 5px;
+    z-index: 2;
+    background-color: rgb(253, 253, 253);
+    border-style: none;
+    border-bottom: 1px solid;
+    border-right: 1px solid;
+    border-top: 1px solid;
+    border-color: rgba(0, 0, 0, 0.2);
+    border-radius: 0px 5px 5px 0px;
+    width: 20px;
+    height: 50px;
+    cursor: pointer;
+}
+
+#btnHide:hover{
+    background-color: rgb(238, 238, 238);
+}
+
+#btnHide > img{
+    height: 13px;
+}
+
+#menu-lateral.hide-menu-lateral{
+    width: 0%;
+}
+
+#conteudo-menu-lat.hide-menu-lateral1{
+    display: none;
+}
+
+#mapa.hide-menu-lateral2{
+    position: static;
+    height: 100%;
+    width: 100%;
+    right: 0px;
+}
+
+#btnHide.hide-menu-lateral3{
+    left: 1px;
+}
+
+#botoesPass{
+    display: none;
+    position: fixed;
+    bottom: 25px;
+    left: 20px;
+    justify-content: space-between;
+    width: 26%;
+}
+
+#botoesPass > button{
+    border-style: none;
+    border-bottom: 1px solid;
+    border-right: 1px solid;
+    border-left: 1px solid;
+    border-top: 1px solid;
+    border-color: rgba(0, 0, 0, 0.2);
+    border-radius: 100%;
+    height: 40px;
+    width: 40px;
+    color: rgb(224, 224, 224);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0px;
+    padding: 0px;
+}
+
+#botoesPass > button:hover{
+    background-color: rgb(224, 224, 224);
+}
+
+#botoesPass > button > img{
+    height: 14px;
 }
