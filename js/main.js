@@ -24,14 +24,48 @@ var marker2;
 
 var polygon;
 var whatcher;
-var menu;
-//Cachoeira = 1
-//Igrejinha = 2
 
 var map = L.map('map', {
     center: center,
     zoom: 15
 });
+
+var menu;
+//Cachoeira = 1
+//Igrejinha = 2
+//Igreja Matriz = 3
+
+var pgsCachoeira = 2;
+var pgsIgrejinha = 2;
+var pgsIgrejaMatriz = 2;
+
+var botaoCachoeira = document.getElementById("cachoeiraBtn");
+var botaoIgrejinha = document.getElementById("igrejinhaBtn");
+var botaoIgrejaMatriz = document.getElementById("igrejaMatrizBtn");
+
+var botaoVoltar = document.getElementById("botaoVoltar");
+var botaoVoltarRota = document.getElementById("botaoVoltarRota");
+
+var manual = false;
+var radioAuto = document.getElementById("radioAuto");
+var radioManual = document.getElementById("radioManual");
+var msgLocalizacao = document.getElementById("msgLocalizacao");
+
+var botaoEsq = document.getElementById("botaoEsq");
+var botaoDir = document.getElementById("botaoDir");
+var pgOndEsta = 1;
+
+var divMenu = document.getElementById("menu");
+var divCachoeira = document.getElementById("Cachoeira");
+var divCachoeira2 = document.getElementById("Cachoeira2");
+var divIgrejinha = document.getElementById("Igrejinha");
+var divIgrejinha2 = document.getElementById("Igrejinha2")
+var divIgrejaMatriz = document.getElementById("IgrejaMatriz");
+var divIgrejaMatriz2 = document.getElementById("IgrejaMatriz2");
+var textoPagina = document.getElementById("pag");
+
+var divFormaLoc = document.getElementById("localizationFormat");
+var divMsgManual = document.getElementById("msgManual");
 
 
 L.tileLayer('http://localhost:8080/tile/{z}/{x}/{y}.png', {
@@ -120,30 +154,81 @@ function vertice_mais_perto(lat,long){
     return target;
 }
 
-var botaoCachoeira = document.getElementById("cachoeiraBtn");
-var botaoIgrejinha = document.getElementById("igrejinhaBtn");
-var botaoIgrejaMatriz = document.getElementById("igrejaMatrizBtn");
+botaoEsq.addEventListener("click", function(){
+    pgOndEsta = pgOndEsta - 1;
+    exibirPagina();
+})
 
-var botaoVoltar = document.getElementById("botaoVoltar");
-var botaoVoltarRota = document.getElementById("botaoVoltarRota");
+botaoDir.addEventListener("click", function(){
+    pgOndEsta = pgOndEsta + 1;
+    exibirPagina();
+})
 
-var manual = false;
-var radioAuto = document.getElementById("radioAuto");
-var radioManual = document.getElementById("radioManual");
 
-var divMenu = document.getElementById("menu");
-var divCachoeira = document.getElementById("cachoeira");
-var divIgrejinha = document.getElementById("igrejinha");
-var divigrejaMatriz = document.getElementById("igrejaMatriz");
+function tratarPagina(pgOndTa, pgs){
+    if(pgOndTa > pgs){
+        pgOndEsta = 1;
+    }
+    if(pgOndTa < 1){
+        pgOndEsta = 2;
+    } 
+    
+}
 
-var divFormaLoc = document.getElementById("localizationFormat");
-var divMsgManual = document.getElementById("msgManual");
-
+function exibirPagina(){
+    switch(menu){
+        case 1:
+            tratarPagina(pgOndEsta, pgsCachoeira);
+        
+            switch(pgOndEsta){
+                case 1:
+                    divCachoeira.style.display = "block";
+                    divCachoeira2.style.display = "none";
+                    textoPagina.textContent = "Pág. 1";
+                break;
+                case 2:
+                    divCachoeira.style.display = "none";
+                    divCachoeira2.style.display = "block";
+                    textoPagina.textContent = "Pág. 2";
+                break;
+            }
+        break;
+        case 2:
+            tratarPagina(pgOndEsta, pgsIgrejinha);
+            switch(pgOndEsta){
+                case 1:
+                    divIgrejinha.style.display = "block";
+                    divIgrejinha2.style.display = "none";
+                    textoPagina.textContent = "Pág. 1";
+                break;
+                case 2:
+                    divIgrejinha.style.display = "none";
+                    divIgrejinha2.style.display = "block";
+                    textoPagina.textContent = "Pág. 2";
+                break;
+            }
+        break;
+        case 3:
+            tratarPagina(pgOndEsta, pgsIgrejaMatriz);
+            switch(pgOndEsta){
+                case 1:
+                    divIgrejaMatriz.style.display = "block";
+                    divIgrejaMatriz2.style.display = "none";
+                    textoPagina.textContent = "Pág. 1";
+                break;
+                case 2:
+                    divIgrejaMatriz.style.display = "none";
+                    divIgrejaMatriz2.style.display = "block";
+                    textoPagina.textContent = "Pág. 2";
+                break;
+            }
+        break;
+    }
+}
 
 botaoCachoeira.addEventListener("click", function(){
     menu = 1;
     esconderMenu();
-    divCachoeira.style.display = "block";
     lati = -15.69496;
     longi = -46.41747;
     map.setView([lati, longi], 15, {animate: true});
@@ -154,12 +239,13 @@ botaoCachoeira.addEventListener("click", function(){
     layerGroup.addTo(map);
     layerGroup.addLayer(marker);
     mostrarPassadores();
+    pgOndEsta = 1;
+    exibirPagina();
 });
 
 botaoIgrejinha.addEventListener("click", function(){
     menu = 2;
     esconderMenu();
-    divIgrejinha.style.display = "block";
     lati = -15.61846;
     longi = -46.42318;
     map.setView([lati, longi], 17, {animate: true});
@@ -170,12 +256,13 @@ botaoIgrejinha.addEventListener("click", function(){
     layerGroup.addTo(map);
     layerGroup.addLayer(marker);
     mostrarPassadores();
+    pgOndEsta = 1;
+    exibirPagina();
 });
 
 botaoIgrejaMatriz.addEventListener("click", function(){
     menu = 3;
     esconderMenu();
-    divigrejaMatriz.style.display = "block";
     lati = -15.62461;
     longi = -46.42253;
     map.setView([lati, longi], 17, {animate: true});
@@ -186,18 +273,25 @@ botaoIgrejaMatriz.addEventListener("click", function(){
     layerGroup.addTo(map);
     layerGroup.addLayer(marker);
     mostrarPassadores();
+    pgOndEsta = 1;
+    exibirPagina();
 });
 
 
 botaoNavegar.addEventListener("click", function(){
+    manual = radioManual.checked;
     makeRoute(lati, longi, manual);
     divCachoeira.style.display = "none";
     divIgrejinha.style.display = "none";
-    divigrejaMatriz.style.display = "none";
+    divIgrejaMatriz.style.display = "none";
+    divCachoeira2.style.display = "none";
+    divIgrejinha2.style.display = "none";
+    divIgrejaMatriz2.style.display = "none";
     botaoVoltar.style.display = "none";
     botaoNavegar.style.display = "none";
     botaoVoltarRota.style.display = "block";
     divFormaLoc.style.display = "block";
+    msgLocalizacao.style.display = "block";
     
     divMsgManual.style.display = "none";
     if(manual == true){
@@ -212,6 +306,7 @@ botaoVoltarRota.addEventListener("click", function(){
     navigator.geolocation.clearWatch(whatcher);
     divFormaLoc.style.display = "none";
     divMsgManual.style.display = "none";
+    msgLocalizacao.style.display = "none";
     
     if(marker2 != null){
         layerGroup.removeLayer(marker2);
@@ -234,7 +329,10 @@ botaoVoltarRota.addEventListener("click", function(){
 botaoVoltar.addEventListener("click", function(){
     divCachoeira.style.display = "none";
     divIgrejinha.style.display = "none";
-    divigrejaMatriz.style.display = "none";
+    divIgrejaMatriz.style.display = "none";
+    divCachoeira2.style.display = "none";
+    divIgrejinha2.style.display = "none";
+    divIgrejaMatriz2.style.display = "none";
     botaoVoltar.style.display = "none";
     botaoNavegar.style.display = "none";
     divMenu.style.display = "block";
@@ -251,23 +349,33 @@ function esconderMenu(){
 }
 
 radioAuto.addEventListener("change", () => {
-    manual = !manual;
+    manual = false;
     map.removeLayer(pathLayer);
     navigator.geolocation.clearWatch(whatcher);
     if(marker2 != null){
         layerGroup.removeLayer(marker2);
     }
-    botaoNavegar.click();
+
+    makeRoute(lati, longi, manual);
+    divMsgManual.style.display = "none";
+    if(manual == true){
+        divMsgManual.style.display = "block";
+    }
 });
 
 radioManual.addEventListener("change", () => {
-    manual = !manual;
+    manual = true;
     map.removeLayer(pathLayer);
     navigator.geolocation.clearWatch(whatcher);
     if(marker2 != null){
         layerGroup.removeLayer(marker2);
     }
-    botaoNavegar.click();
+
+    makeRoute(lati, longi, manual);
+    divMsgManual.style.display = "none";
+    if(manual == true){
+        divMsgManual.style.display = "block";
+    }
 })
 
 
@@ -301,3 +409,4 @@ function mostrarPassadores(){
 function esconderPassadores(){
     document.getElementById("botoesPass").style.display = "none";
 }
+
