@@ -95,8 +95,7 @@ Após isso é necessário apenas executar o container docker criado. (Sugiro ins
 
 ## Criando a base de dados PostGIS para a extensão pgRouting
 
-Primeiro é necessário ter o PostgreSQL, a versão usada no projeto é a versão 13. O banco de dados pode ser obtido em [https://www.postgresql.org/](https://www.postgresql.org/)
-Depois é necessário instalar o PostiGIS, eu instalei com o Stack Builder (utilitario que vem com a instalação do postgreSQL) deixando marcada a opção ao final da instalação de executar o StackBuilder, é possível baixar e instalar o PostgreGIS diretamente. Depois da instalação é necessário criar a base de dados com o nome "regiaoBuritis", também é necessário instalar a extensão pgrouting através do menu "create" > "extension".
+Primeiro é necessário ter o PostgreSQL, a versão usada no projeto é a versão 13. O banco de dados pode ser obtido em [https://www.postgresql.org/](https://www.postgresql.org/). Depois é necessário instalar o PostiGIS, eu instalei com o Stack Builder (utilitario que vem com a instalação do postgreSQL) deixando marcada a opção ao final da instalação de executar o StackBuilder, é possível baixar e instalar o PostgreGIS diretamente. Depois da instalação é necessário criar a base de dados com o nome "regiaoBuritis", também é necessário instalar a extensão pgrouting através do menu "create" > "extension".
 
 É necessário baixar o mapa de Buritis novamente porém convertido para o formato osm para poder seguir o próximo passo. Segue o [Link do Google Drive](https://drive.google.com/file/d/16WvYIwlHbcKK61zr00cJPQB0-_WFRz5q/view?usp=drive_link) com ele já convertido.
 
