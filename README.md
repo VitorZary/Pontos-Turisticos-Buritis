@@ -83,14 +83,14 @@ Após isso reinicie o geoserver.
 ## Subindo o servidor de mapas
 
 Primeiro é necessário ter o docker instalado na máquina, para obte-lo segue o link [https://www.docker.com/](https://www.docker.com/).
-É necessário também baixar o arquivo exportado da região de Buritis no OpenStreetMaps segue o link [Link para o Google Drive](https://drive.google.com/file/d/16WvYIwlHbcKK61zr00cJPQB0-_WFRz5q/view?usp=drive_link)
+É necessário também baixar o arquivo exportado da região de Buritis no OpenStreetMaps segue o [Link para o Google Drive](https://drive.google.com/file/d/16WvYIwlHbcKK61zr00cJPQB0-_WFRz5q/view?usp=drive_link)
 
 Depois de obter o docker e baixar o arquivo é necessário executar os seguintes comandos:
 `docker volume create osm-data`
 e
 `docker run  -v caminho_completo_desde_a_raiz_do_sistema/Buritis_regiao_V2.osm.pbf:/data/region.osm.pbf  -v osm-data:/data/database/  overv/openstreetmap-tile-server  import`
   
-Após isso é necessário apenas executar o container docker criado. (Sugiro instalar o docker desktop, que com o simples ato de clicar no botão "Start" vai subir o container do servidor). OBS: pode ocorrer problemas na execução do comando acima, se isso acontecer pode ser necessário remover o volume docker e criar novamente, segue o link para mais informações: [https://switch2osm.org/serving-tiles/using-a-docker-container/](https://switch2osm.org/serving-tiles/using-a-docker-container/).
+Após isso é necessário apenas executar o container docker criado. (Sugiro instalar o docker desktop, que com o simples ato de clicar no botão "Start" vai subir o container do servidor). OBS: pode ocorrer problemas na execução do comando acima, se isso acontecer pode ser necessário remover o volume docker e criar novamente, segue o link para mais informações: [https://switch2osm.org/serving-tiles/using-a-docker-container/](https://switch2osm.org/serving-tiles/using-a-docker-container/). Para subir o servidor é necessário baixar alguns arquivos então pode demorar.
 
 
 ## Criando a base de dados PostGIS para a extensão pgRouting
