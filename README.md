@@ -88,9 +88,11 @@ Primeiro é necessário ter o docker instalado na máquina, para obte-lo segue o
 Depois de obter o docker e baixar o arquivo é necessário executar os seguintes comandos:
 `docker volume create osm-data`
 e
-`docker run  -v caminho_completo_desde_a_raiz_do_sistema/Buritis_regiao_V2.osm.pbf:/data/region.osm.pbf  -v osm-data:/data/database/  overv/openstreetmap-tile-server  import`
+`docker run  -v caminho_completo_desde_a_raiz_do_sistema\Buritis_regiao_V2.osm.pbf:/data/region.osm.pbf  -v osm-data:/data/database/  overv/openstreetmap-tile-server  import`
   
-Após isso é necessário apenas executar o container docker criado. (Sugiro instalar o docker desktop, que com o simples ato de clicar no botão "Start" vai subir o container do servidor). OBS: pode ocorrer problemas na execução do comando acima, se isso acontecer pode ser necessário remover o volume docker e criar novamente, segue o link para mais informações: [https://switch2osm.org/serving-tiles/using-a-docker-container/](https://switch2osm.org/serving-tiles/using-a-docker-container/). Para subir o servidor é necessário baixar alguns arquivos então pode demorar.
+Após isso é necessário apenas executar o container docker criado. (Sugiro instalar o docker desktop, que com o simples ato de clicar no botão "Start" vai subir o container do servidor). OBS: pode ocorrer problemas na execução do comando acima, se isso acontecer pode ser necessário remover o volume docker e criar novamente, segue o link para mais informações: [https://switch2osm.org/serving-tiles/using-a-docker-container/](https://switch2osm.org/serving-tiles/using-a-docker-container/). Pode demorar, pois o script baixa alguns arquivos, ficando dependente da qualidade da conexão com a internet, o script exibirá informação como um aviso de importação completa ou algo do tipo. 
+
+Finalmente, para funcionar o servidor é necessário executar o seguinte script: `docker run -p 8080:80 -v osm-data:/data/database -d overv/openstreetmap-tile-server run` então assim será criado o container docker que é responsável pelo servidor.
 
 
 ## Criando a base de dados PostGIS para a extensão pgRouting
