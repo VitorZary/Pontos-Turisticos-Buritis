@@ -97,7 +97,7 @@ Finalmente, para funcionar o servidor é necessário executar o seguinte script:
 
 ## Criando a base de dados PostGIS para a extensão pgRouting
 
-Primeiro é necessário ter o PostgreSQL, a versão usada no projeto é a versão 13. O banco de dados pode ser obtido em [https://www.postgresql.org/](https://www.postgresql.org/). Depois é necessário instalar o PostiGIS, eu instalei com o Stack Builder (utilitario que vem com a instalação do postgreSQL) deixando marcada a opção ao final da instalação de executar o StackBuilder, é possível baixar e instalar o PostgreGIS diretamente. Depois da instalação é necessário criar a base de dados com o nome "regiaoBuritis", também é necessário instalar a extensão pgrouting através do menu "create" > "extension".
+Primeiro é necessário ter o PostgreSQL, a versão usada no projeto é a versão 13. O banco de dados pode ser obtido em [https://www.postgresql.org/](https://www.postgresql.org/). Depois é necessário instalar o PostiGIS, eu instalei com o Stack Builder (utilitario que vem com a instalação do postgreSQL) deixando marcada a opção ao final da instalação de executar o StackBuilder, é possível baixar e instalar o PostgreGIS diretamente. Depois da instalação é necessário criar uma base de dados com o nome "regiaoBuritis", também na aba de extensão é necessário instalar a extensão PostGIS indo em create > extension e selecionando postgis, o mesmo processo também para a extensão pgrouting após criar a extensão postgis.
 
 É necessário baixar o mapa de Buritis novamente porém convertido para o formato osm para poder seguir o próximo passo. Segue o [Link do Google Drive](https://drive.google.com/file/d/1gD8EoWcKUyPNy24H8jxyVTnkb70PmE0n/view?usp=drive_link) com ele já convertido.
 
