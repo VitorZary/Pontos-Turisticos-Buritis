@@ -6,11 +6,11 @@ O projeto consiste na apresentação de pontos turísticos em um mapa, apresenta
 
 ## Geoserver
 
-### Instalando o geoserver
+### Instalando o Geoserver
 Primeiro instale o geoserver em sua ultima versão no site [https://geoserver.org/](https://geoserver.org/). Na instalação, na opção de selecionar a porta selecione a porta 8082 para ser a porta padrão do geoserver.(Você pode usar outra porta ou deixar a portão padrão, mas posteriormente a porta pode dar conflito com o servidor de mapas se for usar a porta 8080 para ambos).
 
 
-### Configurando o geoserver
+### Configurando o Geoserver
 
 #### Configuração inicial
 
@@ -56,7 +56,7 @@ No campo "Parametros da view SQL" as configurações serão para os primeiros ca
 
 Após isso preencha os campos de configurações exatamente como a primeira query com uma configuração adicional: seção "Detalhes do tipo de recurso" clicar no link "Edit sql view", no fim da página na seção "Atributos" o atributo "the_geom" selecionar "MultiLineString". Deixar o resto das configurações como está e clicar em no botão "Aceptar" e na outra pagina clicar no botão "Guardar".
 
-#### Habilitando "CORS" no GeoServer
+#### Habilitando "CORS" no Geoserver
 
 Acontece um erro que o javascript não consegue acessar o geoserver, então deve-se habilitar os "CORS" conforme o link [https://gis.stackexchange.com/questions/210109/enabling-cors-in-geoserver-jetty](https://gis.stackexchange.com/questions/210109/enabling-cors-in-geoserver-jetty).
 
