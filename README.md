@@ -88,7 +88,7 @@ Primeiro é necessário ter o docker instalado na máquina, para obte-lo segue o
 Depois de obter o docker e baixar o arquivo é necessário executar os seguintes comandos:
 `docker volume create osm-data`
 e
-`docker run  -v caminho_completo_desde_a_raiz_do_sistema\Buritis_regiao_V2.osm.pbf:/data/region.osm.pbf  -v osm-data:/data/database/  overv/openstreetmap-tile-server  import`
+`docker run  -v caminho_completo_desde_a_raiz_do_sistema/Buritis_regiao_V2.osm.pbf:/data/region.osm.pbf  -v osm-data:/data/database/  overv/openstreetmap-tile-server  import` ( Dica: Se for no windows execute o comando desde o disco local C por exemplo `docker run  -v C:/facu/TCC/Arquivos/Buritis_regiao_V2.osm.pbf:/data/region.osm.pbf  -v osm-data:/data/database/  overv/openstreetmap-tile-server  import`)
   
 Após isso é necessário apenas executar o container docker criado. (Sugiro instalar o docker desktop, que com o simples ato de clicar no botão "Start" vai subir o container do servidor). OBS: pode ocorrer problemas na execução do comando acima, se isso acontecer pode ser necessário remover o volume docker e criar novamente, segue o link para mais informações: [https://switch2osm.org/serving-tiles/using-a-docker-container/](https://switch2osm.org/serving-tiles/using-a-docker-container/). Pode demorar, pois o script baixa alguns arquivos, ficando dependente da qualidade da conexão com a internet, o script exibirá informação como um aviso de importação completa ou algo do tipo. 
 
@@ -101,7 +101,7 @@ Primeiro é necessário ter o PostgreSQL, a versão usada no projeto é a versã
 
 É necessário baixar o mapa de Buritis novamente porém convertido para o formato osm para poder seguir o próximo passo. Segue o [Link do Google Drive](https://drive.google.com/file/d/1gD8EoWcKUyPNy24H8jxyVTnkb70PmE0n/view?usp=drive_link) com ele já convertido.
 
-Para importar os dados para o pgrouting é foi necessário usar um programa nativo da instalação do PostgreSQL chamado osm2pgrouting. Navegando para a pasta "bin" da instalação do postgreSQL versão 13 voce conseguirá executar o seguinte comando: `osm2pgrouting -f CAMINHO_DESDE_A_RAIZ/Buritis_regiao_V2.osm_01.osm -d NOME_DA_BASE -p PORTA_DO_POSTGRESQL -u USUARIO -W SENHA -c mapconfig.xml --clean`. Sendo CAMINHO_DESDE_A_RAIZ = o caminho desde a raiz do sistema, NOME_DA_BASE = o nome da base de dados, PORTA_DO_POSTGRESQL = porta do PostgreSQL, USUARIO = usuario do PostgreSQL, SENHA = senha do PostgreSQL. Caso ocorram erros os dados não serão exportados, quando é digitado corretamente o pgrouting informa o tamanho as ruas e o tempo de execução.
+Para importar os dados para o pgrouting é foi necessário usar um programa nativo da instalação do PostgreSQL chamado osm2pgrouting. Navegando para a pasta "bin" da instalação do postgreSQL versão 13 voce conseguirá executar o seguinte comando: `osm2pgrouting -f CAMINHO_DESDE_A_RAIZ/Buritis_regiao_V2.osm_01.osm -d NOME_DA_BASE -p PORTA_DO_POSTGRESQL -U USUARIO -W SENHA -c mapconfig.xml --clean`. Sendo CAMINHO_DESDE_A_RAIZ = o caminho desde a raiz do sistema, NOME_DA_BASE = o nome da base de dados, PORTA_DO_POSTGRESQL = porta do PostgreSQL, USUARIO = usuario do PostgreSQL, SENHA = senha do PostgreSQL. Caso ocorram erros os dados não serão exportados, quando é digitado corretamente o pgrouting informa o tamanho as ruas e o tempo de execução. Comando que eu usei: `osm2pgrouting -f C:/facu/TCC/Arquivos/Buritis_regiao_V2.osm_01.osm -d regiaoBuritis -p 5432 -U postgres -W bancodedados -c mapconfig.xml --clean`.
 
 
 
