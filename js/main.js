@@ -113,7 +113,7 @@ function makeRoute (lat, long, manual) {
         whatcher = navigator.geolocation.watchPosition(function (position) {
             long = position.coords.longitude;
             lat = position.coords.latitude;
-            url = `${geoserverUrl}/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=Buritis:vertice_mais_perto&outputformat=application/json&viewparams=x:${long};y:${lat}`;
+            url = `http://localhost:8082/geoserver/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=Buritis:vertice_mais_perto&outputformat=application/json&viewparams=x:${long};y:${lat}`;
             $.ajax({
                 url: url,
                 async: false,

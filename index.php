@@ -72,7 +72,7 @@
         <div id="Igrejinha" class="exibirDesc">
           <h4 class="titleCenter">Igrejinha</h4>
           <div class="imag">
-            <img src="images/igrejinha.jpg">
+            <img src="images/igrejinha.png">
           </div>
           <p>A primeira igreja da cidade de Buritis.</p>
         </div>
@@ -91,6 +91,10 @@
 
         <div id="IgrejaMatriz2" class="exibirDesc">
           <p>Localizada no Bairro Centro da cidade de Buritis.</p>
+        </div>
+
+        <div id="Formulario">
+          <form action=""></form>
         </div>
 
       </div>
