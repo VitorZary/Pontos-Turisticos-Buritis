@@ -37,8 +37,8 @@ html, body {
 #conteudo-menu-lat{
     width: 100%;
     transition-delay: 1s;
-    transition-property: display;
     display: block;
+    transition-property: display;
     background-color: rgb(253, 253, 253);
 }
 
@@ -50,7 +50,7 @@ html, body {
     margin-top: 20px;
 }
 
-.exibirDesc, #botaoVoltar, #botaoNavegar, #botaoVoltarRota, #localizationFormat, #msgManual{
+.exibirDesc, #botaoVoltar, #botaoNavegar, #botaoVoltarRota, #localizationFormat, #msgManual, #mostrarConteudo, #adicionar_ponto_tusitico, #conteudo-menu-lat.hide-menu-lateral1, #botao_logout{
     display: none;
 }
 
@@ -116,10 +116,6 @@ html, body {
     width: 0%;
 }
 
-#conteudo-menu-lat.hide-menu-lateral1{
-    display: none;
-}
-
 #mapa.hide-menu-lateral2{
     position: static;
     height: 100%;
@@ -175,4 +171,85 @@ html, body {
 #msgLocalizacao {
     display: none;
     font-size: small;
+}
+
+#menu_usuario {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    margin-left: 2px;
+    margin-right: 2px;
+}
+
+#usuario_name{
+    margin: 3px;
+    color: blue;
+}
+
+#menu_usuario > button{
+    margin-left: 3px;
+    margin-right: 3px;
+    border-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+#div_formulario_login {
+    display: none;
+    text-align: center;
+}
+
+#campo_login, #campo_senha, #botao_enviar {
+    margin: 5px;
+    width: 60%;
+    height: 30px;
+}
+
+#credenciais_invalidas{
+    color: red;
+    display: none;
+}
+
+#btn_add_ponto, #btn_add_usuario{
+    font-size: 12px;
+    padding: 2px;
+    justify-content: center;
+    display: none;
+}
+
+#div_add_ponto_turistico, #div_add_usuario {
+    display: none;
+    margin: 5px;
+    margin-top: 10px;
+    text-align: center;
+}
+
+#addPo_titulo, #addPo_descricao {
+    width: 100%;
+    margin-top: 10px;
+}
+
+#addPo_descricao{
+    height: 150px;
+}
+
+#addPo_imagens{
+    margin-top: 10px;
+}
+
+#addU_email, #addU_senha, #addU_nome {
+    margin-top: 10px;
+    width: 60%;
+}
+
+#addPo_enviar, #addU_enviar{
+    margin-top: 10px;
+    width: 30%;
+}
+
+#mensagem_cad_ponto_turistico, #mensagem_cad_usuario{
+    margin-top: 10px;
+    display: none;
 }
