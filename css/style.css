@@ -50,22 +50,17 @@ html, body {
     margin-top: 20px;
 }
 
-.exibirDesc, #botaoVoltar, #botaoNavegar, #botaoVoltarRota, #localizationFormat, #msgManual, #mostrarConteudo, #adicionar_ponto_tusitico, #conteudo-menu-lat.hide-menu-lateral1, #botao_logout{
+.exibirDesc, #botaoVoltar, #botaoNavegar, #botaoVoltarRota, #localizationFormat, #msgManual, #mostrarConteudo, #adicionar_ponto_tusitico, #conteudo-menu-lat.hide-menu-lateral1, #botao_logout, #div_add_ponto_form, #cancelar_salvar_ponto, #btn_remover_p_turistico, #msgErroDeletarPonto{
     display: none;
 }
 
-.exibirDesc > .imag {
-    display: flex;
-    justify-content: center;
+.exibirDesc {
+    margin-top: 10px;
 }
 
-.exibirDesc > .imag > img{
-    max-height: 40vh;
-    max-width: 95%;
-}
-
-.exibirDesc, .exibirDesc > p{
-    margin-top: 20px;
+.exibirDesc > p{
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .exibirDesc > h4 {
@@ -129,11 +124,9 @@ html, body {
 
 #botoesPass{
     display: none;
-    top: 80px;
-    left: 20px;
     justify-content: space-between;
     align-items: center;
-    margin-top: 18px;
+    margin-top: 15px;
     margin-left: 15px;
     margin-right: 15px;
 }
@@ -207,7 +200,7 @@ html, body {
     height: 30px;
 }
 
-#credenciais_invalidas{
+#msg_erro_login, #msg_erro_list_menu{
     color: red;
     display: none;
 }
@@ -221,10 +214,15 @@ html, body {
 
 #div_add_ponto_turistico, #div_add_usuario {
     display: none;
+    text-align: center;
     margin: 5px;
     margin-top: 10px;
-    text-align: center;
 }
+
+#div_add_ponto_turistico > form, #div_add_usuario > form{
+    text-align: center;
+} 
+
 
 #addPo_titulo, #addPo_descricao {
     width: 100%;
@@ -244,7 +242,11 @@ html, body {
     width: 60%;
 }
 
-#addPo_enviar, #addU_enviar{
+#addPo_enviar{
+    width: 30%;
+}
+
+#addU_enviar{
     margin-top: 10px;
     width: 30%;
 }
@@ -252,4 +254,43 @@ html, body {
 #mensagem_cad_ponto_turistico, #mensagem_cad_usuario{
     margin-top: 10px;
     display: none;
+}
+
+.carousel-item > img{
+    height: 220px
+}
+
+#cancelar_salvar_ponto{
+    margin-bottom: 10px;
+}
+
+#div_remover_p_turistico{
+    display: flex;
+    justify-content: end;
+}
+
+#btn_remover_p_turistico{
+    font-size: 12px;
+}
+
+#infoFormCadPonto{
+    color: green;
+    margin-top: 10px;
+}
+
+#div_addU_admin {
+    margin-left: 5px;
+    margin-top: 10px;
+}
+
+#descricaoPontoTurisitico{
+    width: 100%;
+    height: 150px;;
+    overflow: hidden;
+    overflow-y: scroll;
+    border: 1px solid lightgrey;
+}
+
+textarea {
+    resize: none;
 }

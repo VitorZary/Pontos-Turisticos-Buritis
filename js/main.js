@@ -13,6 +13,14 @@ L.tileLayer('http://localhost:8080/tile/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
+// urls API
+const urlPontosTuristicos = "http://localhost:8000/api/v1/pontosturisticos";
+const urlImagens = "http://localhost:8000/api/v1/imagens";
+const urlFotos = "http://localhost:8000/storage";
+const urlLogin = "http://localhost:8000/api/v1/login";
+const urlLogout = "http://localhost:8000/api/v1/logout";
+const urlUsuarios = "http://localhost:8000/api/v1/users";
+
 var botaoVoltar = document.getElementById("botaoVoltar");
 var botaoVoltarRota = document.getElementById("botaoVoltarRota");
 
@@ -44,12 +52,10 @@ var tituloPontoTuristico = document.getElementById("tituloPontoTuristico");
 var descricaoPontoTurisitico = document.getElementById("descricaoPontoTurisitico");
 var PontoTuristicoId;
 var ponto_titulo;
-
-const urlPontosTuristicos = "http://localhost:8000/api/v1/pontosturisticos";
-const urlLogin = "http://localhost:8000/api/v1/login";
-const urlUsuarios = "http://localhost:8000/api/v1/users"
+var imagensPontoTuristico = null;
 
 var list_menu = document.getElementById("list-menu");
+var msg_erro_list_menu = document.getElementById("msg_erro_list_menu");
 
 var botoesPass = document.getElementById("botoesPass");
 var botaoEsq = document.getElementById("botaoEsq");
@@ -63,22 +69,29 @@ var botao_login = document.getElementById("botao_login");
 var botao_logout = document.getElementById("botao_logout");
 
 var usuario_name = document.getElementById("usuario_name");
-var credenciais_invalidas = document.getElementById("credenciais_invalidas");
-var user_token = null;
-var user_name = null;
-var user_id = null;
+var msg_erro_login = document.getElementById("msg_erro_login");
+var usuario_token = null;
+var usuario_nome = null;
+var usuario_id = null;
+var usuario_e_admin = null;
 
 var btn_add_usuario = document.getElementById("btn_add_usuario");
 var btn_add_ponto = document.getElementById("btn_add_ponto");
-var div_add_ponto_turistico = document.getElementById("div_add_ponto_turistico");   
+var div_add_ponto_turistico = document.getElementById("div_add_ponto_turistico");
+var div_add_ponto_marcador = document.getElementById("div_add_ponto_marcador"); 
+var div_add_ponto_form = document.getElementById("div_add_ponto_form");
+var cancelar_salvar_ponto = document.getElementById("cancelar_salvar_ponto");
+
 var div_add_usuario = document.getElementById("div_add_usuario");  
 
 var form_add_ponto_turistico = document.getElementById("form_add_ponto_turistico");
+var add_ponto_turistico_marker = false;
 var form_add_usuario = document.getElementById("form_add_usuario");
 
 var addU_nome = document.getElementById("addU_nome");
 var addU_email = document.getElementById("addU_email");
 var addU_senha = document.getElementById("addU_senha");
+var addU_admin = document.getElementById("addU_admin");
 
 var addPo_titulo = document.getElementById("addPo_titulo");
 var addPo_descricao = document.getElementById("addPo_descricao");
@@ -86,6 +99,14 @@ var addPo_imagens = document.getElementById("addPo_imagens");
 
 var mensagem_cad_ponto_turistico = document.getElementById("mensagem_cad_ponto_turistico");
 var mensagem_cad_usuario = document.getElementById("mensagem_cad_usuario");
+
+var carouselPontosTuristicos = document.getElementById("carouselPontosTuristicos");
+
+var esta_log = false;
+var btn_remover_p_turistico = document.getElementById("btn_remover_p_turistico");
+var msgErroDeletarPonto = document.getElementById("msgErroDeletarPonto");
+
+
 
 window.onload = function(){
     mostrarPontosTuristicos(urlPontosTuristicos);
@@ -151,7 +172,7 @@ function makeRoute (lat, long) {
 }
 
 botaoNavegar.addEventListener("click", function(){
-    esconderTodosComponentes();
+    resetarTodosComponentes();
     marker = L.marker([lati, longi], {
         title: `${ponto_titulo}`,
         icon: markerRed
@@ -171,7 +192,7 @@ botaoNavegar.addEventListener("click", function(){
 })
 
 botaoVoltarRota.addEventListener("click", function(){
-    esconderTodosComponentes();
+    resetarTodosComponentes();
     mostrarPontoTuristico(PontoTuristicoId);
     if(marker2 != null){
         layerGroupMarkers.removeLayer(marker2);
@@ -179,11 +200,12 @@ botaoVoltarRota.addEventListener("click", function(){
 })
 
 botaoVoltar.addEventListener("click", function(){
-    esconderTodosComponentes();
+    resetarTodosComponentes();
     menu_usuario.style.display = "flex";
     divMenu.style.display = "block";
     map.setView(center, 15, {animate: true});
     esta_logado();
+    mostrarPontosTuristicos(urlPontosTuristicos);
 });
 
 radioAuto.addEventListener("change", () => {
@@ -233,12 +255,19 @@ buttonHide.addEventListener("click", function(){
 });
 
 // Exibir pontos turisticos
-
 async function mostrarPontosTuristicos(url) {
-    var response = await fetch(url);
+    var response;
+
+    try {
+        response = await fetch(url);
+    } catch (e) {
+        msg_erro_list_menu.style.display = "block";
+        msg_erro_list_menu.innerText = "Houve um erro no servidor, por favor tente mais tarde."
+    }
+     
     var data = await response.json();
 
-    esconderTodosComponentes();
+    resetarTodosComponentes();
     divMenu.style.display = "block";
     map.setView(center, 15, {animate: true});
 
@@ -264,21 +293,46 @@ async function mostrarPontosTuristicos(url) {
     });
 }
 
+// Exibir 1 ponto turístico por id
 async function mostrarPontoTuristico(id){
-    esconderTodosComponentes();
+    resetarTodosComponentes();
     botaoVoltar.style.display = "block";
     botaoNavegar.style.display = "block";
+    msgErroDeletarPonto.style.display = "none";
+
     var responsePontoTuristico = await fetch(`${urlPontosTuristicos}/${id}`);
     
     const ponto = await responsePontoTuristico.json();
 
     mostrarConteudo.style.display = "block";
+    btn_remover_p_turistico.style.display = "none";
     tituloPontoTuristico.innerText = ponto.data.titulo;
     descricaoPontoTurisitico.innerText = ponto.data.descricao;
     lati = ponto.data.latitude;
     longi = ponto.data.longitude;
     ponto_titulo = ponto.data.titulo;
     PontoTuristicoId = id;
+    imagensPontoTuristico = ponto.data.imagens;
+    carouselPontosTuristicos.innerHTML = ``;
+
+    var contImage = 0;
+    imagensPontoTuristico.forEach(element => {
+        if(contImage == 0){
+            carouselPontosTuristicos.innerHTML = carouselPontosTuristicos.innerHTML + `<div class="carousel-item active">
+                <img src="${urlFotos}/${element.imagem}" class="d-block w-100">
+              </div>`;
+        }else{
+            carouselPontosTuristicos.innerHTML = carouselPontosTuristicos.innerHTML + `<div class="carousel-item">
+                <img src="${urlFotos}/${element.imagem}" class="d-block w-100">
+              </div>`;
+        }
+        contImage++;
+    });
+
+    if(esta_log == true){
+        btn_remover_p_turistico.style.display = "block";
+    }
+
     marker = L.marker([lati, longi], {
         title: `${ponto_titulo}`,
         icon: markerRed
@@ -306,24 +360,41 @@ botaoDir.addEventListener("click", function(){
 }); 
 
 botao_login.addEventListener("click", function(){
-    esconderTodosComponentes();
+    resetarTodosComponentes();
     div_formulario_login.style.display = "block";
     botaoVoltar.style.display = "block";
     menu_usuario.style.display = "none";
 });
 
-botao_logout.addEventListener("click", function(){
-    localStorage.clear();
-    botao_login.style.display = 'block';
-    usuario_name.innerText = "Usuário"
-    user_token = null;
-    user_name = null;
-    user_id = null;
-    botaoVoltar.click();
-    btn_add_usuario.style.display = "none";
-    btn_add_ponto.style.display = "none";
-    botao_logout.style.display = "none";
-    botao_login.style.display = "block";
+botao_logout.addEventListener("click", async function(){
+    const response = await fetch(urlLogout, {
+        method: "POST",
+        headers: {
+            "Accept": "application/json",
+            "Authorization": `Bearer ${usuario_token}`
+        }
+    });
+
+    const data = await response.json();
+
+    if(data.status == 200){
+        localStorage.clear();
+        botao_login.style.display = 'block';
+        usuario_name.innerText = "Usuário"
+        usuario_token = null;
+        usuario_nome = null;
+        usuario_id = null;
+        botaoVoltar.click();
+        esta_log = false;
+        btn_add_usuario.style.display = "none";
+        btn_add_ponto.style.display = "none";
+        botao_logout.style.display = "none";
+        botao_login.style.display = "block";
+    }else{
+        window.alert("Usuário não está logado!");
+        esta_logado();
+    }
+    
 });
 
 formulario_login.addEventListener("submit", (e) => {
@@ -337,10 +408,43 @@ formulario_login.addEventListener("submit", (e) => {
 
 });
 
+async function login(credenciais){
+    var response;
+    try {
+        response = await fetch(urlLogin, {
+            method: "POST",
+            body: credenciais,
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+    } catch (e) {
+        msg_erro_login.style.display = "block";
+        msg_erro_login.innerText = "Houve um erro no servidor, por favor tente mais tarde."
+    }
+    
+
+    const data = await response.json();
+
+    if(data.message == "Authorized"){
+        localStorage.clear();
+        localStorage.setItem("token", data.data.token);
+        localStorage.setItem("nome", data.data.nome);
+        localStorage.setItem("id", data.data.id);
+        localStorage.setItem("admin", data.data.admin);
+        botaoVoltar.click();
+        msg_erro_login.style.display = "none";
+        esta_logado();
+    }else{
+        msg_erro_login.style.display = "block";
+        msg_erro_login.innerText = "Credenciais Inválidas"
+    }
+}
+
 async function esta_logado() {
     var token = localStorage.getItem("token");
     if(token != null){
-        var response = await fetch(urlUsuarios, {
+        var response = await fetch(urlImagens, {
             method: "GET",
             headers: {
                 "Accept": "application/json",
@@ -348,16 +452,21 @@ async function esta_logado() {
             }
         });
 
-        if(response.ok){
-            user_token = token;
-            user_name = localStorage.getItem("nome");
-            user_id = localStorage.getItem("id");
+        if(response.status == 200){
+            usuario_token = token;
+            usuario_nome = localStorage.getItem("nome");
+            usuario_id = localStorage.getItem("id");
+            usuario_e_admin = localStorage.getItem("admin");
             botao_login.style.display = "none";
-            usuario_name.innerText = `Bem vindo ${user_name}`;
+            usuario_name.innerText = `Bem vindo ${usuario_nome}`;
             btn_add_ponto.style.display = "block";
-            btn_add_usuario.style.display = "block";
+            if(usuario_e_admin == true){
+                btn_add_usuario.style.display = "block";
+            }
+            
             botao_logout.style.display = "block";
             botao_login.style.display = "none";
+            esta_log = true;
         }else{
             localStorage.clear();
             botao_logout.style.display = "none";
@@ -371,50 +480,19 @@ async function esta_logado() {
 
 }
 
-async function login(credenciais){
-    const response = await fetch(urlLogin, {
-        method: "POST",
-        body: credenciais,
-        headers: {
-            "Content-Type": "application/json"
-        }
-    });
-
-    const data = await response.json();
-
-    if(data.message == "Authorized"){
-        localStorage.clear();
-        botao_login.style.display = 'none';
-        user_name = data.data.nome;
-        user_token = data.data.token;
-        user_id = data.data.id;
-        usuario_name.innerText = `Bem vindo ${user_name}`;
-        localStorage.setItem("token", data.data.token);
-        localStorage.setItem("nome", data.data.nome);
-        localStorage.setItem("id", data.data.id);
-        botaoVoltar.click();
-        btn_add_ponto.style.display = "block";
-        btn_add_usuario.style.display = "block";
-        botao_logout.style.display = "block";
-        botao_login.style.display = "none";
-        menu_usuario.style.display = "flex";
-    }else{
-        credenciais_invalidas.style.display = "block";
-    }
-}
-
 btn_add_ponto.addEventListener("click", function(){
-    esconderTodosComponentes();
+    resetarTodosComponentes();
     btn_add_ponto.style.display = "none";
     btn_add_usuario.style.display = "none";
     botaoVoltar.style.display = "block";
+    add_ponto_turistico_marker = true;
     div_add_ponto_turistico.style.display = "block";
     mensagem_cad_ponto_turistico.style.display = "none";
     mensagem_cad_ponto_turistico.style.display = "none";
 });
 
 btn_add_usuario.addEventListener("click", function(){
-    esconderTodosComponentes();
+    resetarTodosComponentes();
     btn_add_ponto.style.display = "none";
     btn_add_usuario.style.display = "none";
     botaoVoltar.style.display = "block";
@@ -423,7 +501,7 @@ btn_add_usuario.addEventListener("click", function(){
     mensagem_cad_ponto_turistico.style.display = "none";
 });
 
-function esconderTodosComponentes() {
+function resetarTodosComponentes() {
     divMenu.style.display = "none";
     botaoVoltar.style.display = "none";
     botaoNavegar.style.display = "none";
@@ -442,27 +520,96 @@ function esconderTodosComponentes() {
     addPo_descricao.value = "";
     addPo_titulo.value = "";
     addPo_imagens.value = "";
+    add_ponto_turistico_marker = false;
+    msg_erro_login.style.display = "none";
+    mensagem_cad_usuario.style.display = "none";
+    campo_login.value = "";
+    campo_senha.value = "";
 }
 
-form_add_ponto_turistico.addEventListener("submit", async function (e){
+form_add_ponto_turistico.addEventListener("submit", async (e) => {
     e.preventDefault();
     
     var dadosPontoTuristico = {
-        titulo: addPo_titulo,
-        descricao: addPo_descricao,
-        imagens: addPo_imagens
+        titulo: addPo_titulo.value,
+        descricao: addPo_descricao.value,
+        latitude: marker.getLatLng().lat,
+        longitude: marker.getLatLng().lng,
+        user_id: usuario_id
+    }
+
+    dadosPontoTuristico = JSON.stringify(dadosPontoTuristico);
+
+    const responsePonto = await fetch(urlPontosTuristicos, {
+        method: "POST",
+        body: dadosPontoTuristico,
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "Authorization": `Bearer ${usuario_token}`
+        }
+    });
+
+    const pontoturistico = await responsePonto.json();
+
+    if(responsePonto.status == 200){
+        const pontoTuristicoId = pontoturistico.data.id;
+        var responseImagens = [];
+        var error = false;
+
+        for (const file of addPo_imagens.files){
+
+            const bodyR = new FormData();
+            bodyR.append('imagem', file);
+            bodyR.append('pontos_turisticos_id', pontoTuristicoId);
+
+            var response = await fetch(urlImagens, {
+                method: "POST",
+                body: bodyR,
+                headers: {
+                    "Accept": "application/json",
+                    "Authorization": `Bearer ${usuario_token}`
+                }
+            });
+
+            responseImagens.push(await response.json());
+        }
+
+        responseImagens.forEach(element => {
+            if(element.status != 200){
+                error = true;
+            }
+        });
+
+        if(error == false){
+            mensagem_cad_ponto_turistico.innerText = "Ponto Turístico cadastrado com sucesso!";
+            mensagem_cad_ponto_turistico.style.color = "green";
+            mensagem_cad_ponto_turistico.style.display = "block";
+        }else{
+            mensagem_cad_ponto_turistico.innerText = "Houve um erro ao fazer o upload de uma ou mais imagens!";
+            mensagem_cad_ponto_turistico.style.color = "red";
+            mensagem_cad_ponto_turistico.style.display = "block";
+        }
+
+    }else{
+        mensagem_cad_ponto_turistico.innerText = "Houve um erro ao cadastrar o Ponto Turístico!";
+        mensagem_cad_ponto_turistico.style.color = "red";
+        mensagem_cad_ponto_turistico.style.display = "block";
     }
 
 });
 
-form_add_usuario.addEventListener("submit", async function (e){
+form_add_usuario.addEventListener("submit", async (e) => {
     e.preventDefault();
     
+    console.log(addU_admin.checked);
+
     var dadosUsuario = {
         nome: addU_nome.value,
         email: addU_email.value,
         password: addU_senha.value,
-        usuario_que_cadastrou: user_id
+        usuario_que_cadastrou: usuario_id,
+        admin: addU_admin.checked ? 1 : 0
     }
 
     dadosUsuario = JSON.stringify(dadosUsuario);
@@ -473,7 +620,7 @@ form_add_usuario.addEventListener("submit", async function (e){
         headers: {
             "Content-Type": "application/json",
             "Accept": "application/json",
-            "Authorization": `Bearer ${user_token}`
+            "Authorization": `Bearer ${usuario_token}`
         }
     });
 
@@ -496,3 +643,84 @@ form_add_usuario.addEventListener("submit", async function (e){
     }
 });
 
+map.on('click', function(e) {
+    if(add_ponto_turistico_marker == true){
+        marker = L.marker([e.latlng.lat, e.latlng.lng], {
+            icon: markerRed
+        });
+        layerGroupMarkers.clearLayers();
+        layerGroupMarkers.addLayer(marker);
+        layerGroupMarkers.addTo(map);
+        div_add_ponto_marcador.style.display = "none";
+        div_add_ponto_form.style.display = "block";
+        add_ponto_turistico_marker = false;
+        cancelar_salvar_ponto.style.display = "block";
+        botaoVoltar.style.display = "none";
+    }
+});
+
+cancelar_salvar_ponto.addEventListener('click', () => {
+    div_add_ponto_marcador.style.display = "block";
+    div_add_ponto_form.style.display = "none";
+    botaoVoltar.style.display = "block";
+    cancelar_salvar_ponto.style.display = "none";
+    add_ponto_turistico_marker = true;
+    layerGroupMarkers.clearLayers();
+    addPo_descricao.value = "";
+    addPo_titulo.value = "";
+    addPo_imagens.value = "";
+});
+
+btn_remover_p_turistico.addEventListener('click', async () => {
+    var erro = false;
+    var response;
+    var data;
+
+    var resultado = confirm("Deseja realmente apagar o ponto turístico?");
+
+    if(resultado == true){
+        imagensPontoTuristico.forEach(async element => {
+            response = await fetch(`${urlImagens}/${element.id}`, {
+                method: "DELETE",
+                headers: {
+                    "Accept": "application/json",
+                    "Authorization": `Bearer ${usuario_token}`
+                }
+            });
+            data = await response.json();
+    
+            if(data.status != 200){
+                erro = true;
+            }
+        });
+    
+        if(erro == true){
+            msgErroDeletarPonto.style.display = "block";
+            msgErroDeletarPonto.style.color = "red";
+            msgErroDeletarPonto.innerText = "Houve um erro ao deletar o ponto turístico!";
+        }else{
+            response = await fetch(`${urlPontosTuristicos}/${PontoTuristicoId}`, {
+                method: "DELETE",
+                headers: {
+                    "Accept": "application/json",
+                    "Authorization": `Bearer ${usuario_token}`
+                }
+            });
+            data = await response.json();
+    
+            if(data.status == 200){
+                msgErroDeletarPonto.style.display = "block";
+                msgErroDeletarPonto.style.color = "green";
+                msgErroDeletarPonto.innerText = "Ponto Turístico Deletado com sucesso!";
+                setTimeout(() => {
+                    botaoVoltar.click()
+                }, 4000);
+            }else{
+                msgErroDeletarPonto.style.display = "block";
+                msgErroDeletarPonto.style.color = "red";
+                msgErroDeletarPonto.innerText = "Houve um erro ao deletar o ponto turístico!";
+            }
+        }
+    }
+    
+});
