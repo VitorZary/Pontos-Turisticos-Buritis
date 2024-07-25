@@ -2,7 +2,6 @@ import {markerRed, markerBlue} from './Marcadores.js';
 import {caminho_mais_curto, vertice_mais_perto} from './Geoserver.js';
 
 
-// Mapa
 const center = [-15.6277,  -46.4242];
 var map = L.map('map', {
     center: center,
@@ -13,7 +12,7 @@ L.tileLayer('http://localhost:8080/tile/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
-// urls API
+
 const urlPontosTuristicos = "http://localhost:8000/api/v1/pontosturisticos";
 const urlImagens = "http://localhost:8000/api/v1/imagens";
 const urlFotos = "http://localhost:8000/storage";
@@ -120,7 +119,7 @@ function makeRoute (lat, long) {
     target = vertice_mais_perto(lat,long);
 
     if(manual == true){
-        // faz rota com base onde está o marcador vermelho
+        
         marker2 = L.marker(center, {
             title: "Minha Localização",
             draggable: true,
@@ -148,7 +147,7 @@ function makeRoute (lat, long) {
         });
         
     }else{
-        //faz rota com base na localização
+        
         navigator.geolocation.getCurrentPosition(function (position){
             map.setView([position.coords.latitude, position.coords.longitude], 15, {animate: true});
         });
@@ -238,7 +237,6 @@ radioManual.addEventListener("change", () => {
     }
 });
 
-// Botão esconder menu lateral
 buttonHide.addEventListener("click", function(){
     let contents = buttonHide.innerHTML;
     if(contents == `<img src="icons/seta-direita.png">`){
@@ -254,7 +252,6 @@ buttonHide.addEventListener("click", function(){
     document.getElementById("mapa").classList.toggle('hide-menu-lateral2');
 });
 
-// Exibir pontos turisticos
 async function mostrarPontosTuristicos(url) {
     var response;
 
@@ -293,7 +290,6 @@ async function mostrarPontosTuristicos(url) {
     });
 }
 
-// Exibir 1 ponto turístico por id
 async function mostrarPontoTuristico(id){
     resetarTodosComponentes();
     botaoVoltar.style.display = "block";
@@ -488,7 +484,6 @@ btn_add_ponto.addEventListener("click", function(){
     add_ponto_turistico_marker = true;
     div_add_ponto_turistico.style.display = "block";
     mensagem_cad_ponto_turistico.style.display = "none";
-    mensagem_cad_ponto_turistico.style.display = "none";
 });
 
 btn_add_usuario.addEventListener("click", function(){
@@ -525,6 +520,7 @@ function resetarTodosComponentes() {
     mensagem_cad_usuario.style.display = "none";
     campo_login.value = "";
     campo_senha.value = "";
+    document.getElementById('map').style.cursor = '';
 }
 
 form_add_ponto_turistico.addEventListener("submit", async (e) => {
@@ -585,6 +581,10 @@ form_add_ponto_turistico.addEventListener("submit", async (e) => {
             mensagem_cad_ponto_turistico.innerText = "Ponto Turístico cadastrado com sucesso!";
             mensagem_cad_ponto_turistico.style.color = "green";
             mensagem_cad_ponto_turistico.style.display = "block";
+            setTimeout(() => {
+                cancelar_salvar_ponto.click();
+                botaoVoltar.click();
+            }, 4000);
         }else{
             mensagem_cad_ponto_turistico.innerText = "Houve um erro ao fazer o upload de uma ou mais imagens!";
             mensagem_cad_ponto_turistico.style.color = "red";
@@ -656,8 +656,15 @@ map.on('click', function(e) {
         add_ponto_turistico_marker = false;
         cancelar_salvar_ponto.style.display = "block";
         botaoVoltar.style.display = "none";
+        document.getElementById('map').style.cursor = '';
     }
 });
+
+map.on('mouseover', function(e){
+    if(add_ponto_turistico_marker == true){
+        document.getElementById('map').style.cursor = 'pointer';
+    }
+})
 
 cancelar_salvar_ponto.addEventListener('click', () => {
     div_add_ponto_marcador.style.display = "block";

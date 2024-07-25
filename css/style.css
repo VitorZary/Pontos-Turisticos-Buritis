@@ -294,3 +294,7 @@ html, body {
 textarea {
     resize: none;
 }
+
+#saber_mais{
+    font-size: 12px;
+}
