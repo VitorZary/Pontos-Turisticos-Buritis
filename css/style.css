@@ -50,7 +50,7 @@ html, body {
     margin-top: 20px;
 }
 
-.exibirDesc, #botaoVoltar, #botaoNavegar, #botaoVoltarRota, #localizationFormat, #msgManual, #mostrarConteudo, #adicionar_ponto_tusitico, #conteudo-menu-lat.hide-menu-lateral1, #botao_logout, #div_add_ponto_form, #cancelar_salvar_ponto, #btn_remover_p_turistico, #msgErroDeletarPonto{
+#botaoVoltar, #botaoNavegar, #botaoVoltarRota, #div_fora_localizationFormat, #msgManual, #div_fora_mostrarConteudo, #botao_logout, #div_add_ponto_form, #cancelar_salvar_ponto, #btn_remover_p_turistico, #msgErroDeletarPonto,  #div_fora_formulario_login, #div_fora_add_ponto_turistico, #div_fora_add_usuario{
     display: none;
 }
 
@@ -107,19 +107,19 @@ html, body {
     height: 13px;
 }
 
-#menu-lateral.hide-menu-lateral{
+.hide-menu-lateral{
     width: 0%;
 }
 
-#mapa.hide-menu-lateral2{
+.hide-menu-lateral1 {
+    display: none;
+}
+
+.hide-menu-lateral2{
     position: static;
     height: 100%;
     width: 100%;
     right: 0px;
-}
-
-#btnHide.hide-menu-lateral3{
-    left: 1px;
 }
 
 #botoesPass{

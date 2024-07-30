@@ -14,17 +14,18 @@
   
     <div id="menu-lateral" class="rounded">
       <div id="conteudo-menu-lat" class="container">
-
-        <div id="divMenu"> 
-          <h4 id="title">Pontos Turísticos <span>BURITIS-MG</span></h4>
-          <div>
-            <p id="saber_mais">Clique em um dos Pontos Turísticos abaixo para saber mais:</p>
-            <div class="list-group rounded" id="list-menu"></div>
-            <p id="msg_erro_list_menu"></p>
-          </div>
-          <div id="botoesPass">
-            <button id="botaoEsq"><img src="icons/seta-esquerda.png"></button>
-            <button id="botaoDir"><img src="icons/seta-direita.png"></button>
+        <div id="div_fora_menu_inicial">
+          <div id="divMenu"> 
+            <h4 id="title">Pontos Turísticos <span>BURITIS-MG</span></h4>
+            <div>
+              <p id="saber_mais">Clique em um dos Pontos Turísticos abaixo para saber mais:</p>
+              <div class="list-group rounded" id="list-menu"></div>
+              <p id="msg_erro_list_menu"></p>
+            </div>
+            <div id="botoesPass">
+              <button id="botaoEsq"><img src="icons/seta-esquerda.png"></button>
+              <button id="botaoDir"><img src="icons/seta-direita.png"></button>
+            </div>
           </div>
         </div>
     
@@ -43,88 +44,98 @@
           <button type="button" id= "cancelar_salvar_ponto" class="btn btn-light">Voltar</button>
         </div>
         
-        <div id="mostrarConteudo" class="exibirDesc">
-          <div id="div_remover_p_turistico">
-            <button type="button"  class="btn btn-light" id="btn_remover_p_turistico"><img src="/icons/icone-delete.png">Ponto Turístico</button>
-          </div>
-          <h4 id="tituloPontoTuristico"></h4>
-          <p id="descricaoPontoTurisitico"></p>
-          <div  class="carousel slide" id="passarCarouselPontosTuristicos">
-            <div class="carousel-inner" id="carouselPontosTuristicos"></div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#passarCarouselPontosTuristicos" data-bs-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#passarCarouselPontosTuristicos" data-bs-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Next</span>
-            </button>
-          </div>
-          <p id="msgErroDeletarPonto"></p>
-        </div>
-
-        <div id="localizationFormat">
-          <h4>Forma de Localização</h4>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="radioLocalization" id="radioAuto" checked>
-            <label class="form-check-label" for="radioAuto">
-              Automática
-            </label>
-            <p id="msgLocalizacao">(A localização automática pode demorar alguns instantes)</p>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="radioLocalization" id="radioManual">
-            <label class="form-check-label" for="radioManual">
-              Manual
-            </label>
-          </div>
-          <div id="msgManual">
-            <p>Arraste o marcador em azul para selecionar sua Localização</p>
+        <div id="div_fora_mostrarConteudo">
+          <div id="mostrarConteudo" class="exibirDesc">
+            <div id="div_remover_p_turistico">
+              <button type="button"  class="btn btn-light" id="btn_remover_p_turistico"><img src="/icons/icone-delete.png">Ponto Turístico</button>
+            </div>
+            <h4 id="tituloPontoTuristico"></h4>
+            <p id="descricaoPontoTurisitico"></p>
+            <div  class="carousel slide" id="passarCarouselPontosTuristicos">
+              <div class="carousel-inner" id="carouselPontosTuristicos"></div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#passarCarouselPontosTuristicos" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#passarCarouselPontosTuristicos" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            </div>
+            <p id="msgErroDeletarPonto"></p>
           </div>
         </div>
 
-        <div id="div_formulario_login">
-          <form id="formulario_login">
-            <h3>Login</h3>
-            <input type="text" placeholder="Login" name="campo_login" id="campo_login">
-            <input type="password" placeholder="Senha" name="campo_senha" id="campo_senha">
-            <input type="submit" id="botao_enviar" value="Entrar">
-            <p id="msg_erro_login"></p>
-          </form>
-        </div>
-
-        <div id="div_add_ponto_turistico">
-          <h5>Adicionar Novo Ponto Turístico</h5>
-          <div id="div_add_ponto_marcador">
-            <p>Clique no mapa para Adicionar a localização do ponto turístico</p>
+        <div id="div_fora_localizationFormat">
+          <div id="localizationFormat">
+            <h4>Forma de Localização</h4>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="radioLocalization" id="radioAuto" checked>
+              <label class="form-check-label" for="radioAuto">
+                Automática
+              </label>
+              <p id="msgLocalizacao">(A localização automática pode demorar alguns instantes)</p>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="radioLocalization" id="radioManual">
+              <label class="form-check-label" for="radioManual">
+                Manual
+              </label>
+            </div>
+            <div id="msgManual">
+              <p>Arraste o marcador em azul para selecionar sua Localização</p>
+            </div>
           </div>
-          <div id="div_add_ponto_form">
-            <form id="form_add_ponto_turistico" formenctype="multipart/form-data">
-              <input name="addPo_titulo" id="addPo_titulo"  type="text" placeholder="Título">
-              <textarea name="addPo_descricao" id="addPo_descricao" placeholder="Descrição"></textarea>
-              <input type="file" accept="image/png, image/jpeg" name="addPo_imagens" id="addPo_imagens" multiple>
-              <p id="infoFormCadPonto">(Pressione a Tecla 'ctrl' do seu teclado para selecionar várias imagens)</p>
-              <input type="submit" value="Salvar" name="addPo_enviar" id="addPo_enviar" >
-              <p id="mensagem_cad_ponto_turistico"></p>
-            </form>
-          </div>  
         </div>
         
-        <div id="div_add_usuario">
-          <form id="form_add_usuario">
-            <h5>Adicionar Novo Usuário</h5>
-            <input type="text" name="addU_nome" id="addU_nome" placeholder="Nome">
-            <input type="text" name="addU_email" id="addU_email" placeholder="Login">
-            <input type="password" name="addU_senha" id="addU_senha" placeholder="Senha">
-            <div id="div_addU_admin">
-              <label for="addU_admin">
-                Usuario será Admin?
-              </label>
-              <input type="checkbox" name="addU_admin" id="addU_admin" value="admin">
+        <div id="div_fora_formulario_login">
+          <div id="div_formulario_login">
+            <form id="formulario_login">
+              <h3>Login</h3>
+              <input type="text" placeholder="Login" name="campo_login" id="campo_login">
+              <input type="password" placeholder="Senha" name="campo_senha" id="campo_senha">
+              <input type="submit" id="botao_enviar" value="Entrar">
+              <p id="msg_erro_login"></p>
+            </form>
+          </div>
+        </div>
+
+        <div id="div_fora_add_ponto_turistico">
+          <div id="div_add_ponto_turistico">
+            <h5>Adicionar Novo Ponto Turístico</h5>
+            <div id="div_add_ponto_marcador">
+              <p>Clique no mapa para Adicionar a localização do ponto turístico</p>
             </div>
-            <input type="submit" value="Salvar" name="addU_enviar" id="addU_enviar">
-            <p id="mensagem_cad_usuario"></p>
-          </form>
+            <div id="div_add_ponto_form">
+              <form id="form_add_ponto_turistico" formenctype="multipart/form-data">
+                <input name="addPo_titulo" id="addPo_titulo"  type="text" placeholder="Título">
+                <textarea name="addPo_descricao" id="addPo_descricao" placeholder="Descrição"></textarea>
+                <input type="file" accept="image/png, image/jpeg" name="addPo_imagens" id="addPo_imagens" multiple>
+                <p id="infoFormCadPonto">(Pressione a Tecla 'ctrl' do seu teclado para selecionar várias imagens)</p>
+                <input type="submit" value="Salvar" name="addPo_enviar" id="addPo_enviar" >
+                <p id="mensagem_cad_ponto_turistico"></p>
+              </form>
+            </div>  
+          </div>
+        </div>
+        
+        <div id="div_fora_add_usuario">
+          <div id="div_add_usuario">
+            <form id="form_add_usuario">
+              <h5>Adicionar Novo Usuário</h5>
+              <input type="text" name="addU_nome" id="addU_nome" placeholder="Nome">
+              <input type="text" name="addU_email" id="addU_email" placeholder="Login">
+              <input type="password" name="addU_senha" id="addU_senha" placeholder="Senha">
+              <div id="div_addU_admin">
+                <label for="addU_admin">
+                  Usuario será Admin?
+                </label>
+                <input type="checkbox" name="addU_admin" id="addU_admin" value="admin">
+              </div>
+              <input type="submit" value="Salvar" name="addU_enviar" id="addU_enviar">
+              <p id="mensagem_cad_usuario"></p>
+            </form>
+          </div>
         </div>
 
       </div>

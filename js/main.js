@@ -20,6 +20,13 @@ const urlLogin = "http://localhost:8000/api/v1/login";
 const urlLogout = "http://localhost:8000/api/v1/logout";
 const urlUsuarios = "http://localhost:8000/api/v1/users";
 
+var div_fora_menu_inicial = document.getElementById("div_fora_menu_inicial");
+var div_fora_mostrarConteudo = document.getElementById("div_fora_mostrarConteudo");
+var div_fora_localizationFormat = document.getElementById("div_fora_localizationFormat");
+var div_fora_formulario_login = document.getElementById("div_fora_formulario_login");
+var div_fora_add_ponto_turistico = document.getElementById("div_fora_add_ponto_turistico");
+var div_fora_add_usuario = document.getElementById("div_fora_add_usuario");
+
 var botaoVoltar = document.getElementById("botaoVoltar");
 var botaoVoltarRota = document.getElementById("botaoVoltarRota");
 
@@ -30,7 +37,7 @@ var msgLocalizacao = document.getElementById("msgLocalizacao");
 
 var divMenu = document.getElementById("divMenu");
 
-var divFormaLoc = document.getElementById("localizationFormat");
+var localizationFormat = document.getElementById("localizationFormat");
 var divMsgManual = document.getElementById("msgManual");
 
 var pathLayer = L.layerGroup();
@@ -106,9 +113,8 @@ var btn_remover_p_turistico = document.getElementById("btn_remover_p_turistico")
 var msgErroDeletarPonto = document.getElementById("msgErroDeletarPonto");
 
 
-
 window.onload = function(){
-    mostrarPontosTuristicos(urlPontosTuristicos);
+    botaoVoltar.click();
     esta_logado();
 }
 
@@ -182,7 +188,8 @@ botaoNavegar.addEventListener("click", function(){
     manual = radioManual.checked;
     makeRoute(lati, longi);
     botaoVoltarRota.style.display = "block";
-    divFormaLoc.style.display = "block";
+    div_fora_localizationFormat.style.display = "block";
+    localizationFormat.style.display = "block";
     msgLocalizacao.style.display = "block";
     divMsgManual.style.display = "none";
     if(manual == true){
@@ -192,6 +199,8 @@ botaoNavegar.addEventListener("click", function(){
 
 botaoVoltarRota.addEventListener("click", function(){
     resetarTodosComponentes();
+    mostrarConteudo.style.display = "block";
+    div_fora_mostrarConteudo.style.display = "block";
     mostrarPontoTuristico(PontoTuristicoId);
     if(marker2 != null){
         layerGroupMarkers.removeLayer(marker2);
@@ -202,6 +211,7 @@ botaoVoltar.addEventListener("click", function(){
     resetarTodosComponentes();
     menu_usuario.style.display = "flex";
     divMenu.style.display = "block";
+    div_fora_menu_inicial.style.display = "block";
     map.setView(center, 15, {animate: true});
     esta_logado();
     mostrarPontosTuristicos(urlPontosTuristicos);
@@ -242,11 +252,11 @@ buttonHide.addEventListener("click", function(){
     if(contents == `<img src="icons/seta-direita.png">`){
         buttonHide.innerHTML = `<img src="icons/seta-esquerda.png">`;
         setTimeout(function toggleElements(){
-            document.getElementById("conteudo-menu-lat").classList.toggle('hide-menu-lateral1');
+            document.getElementById("conteudo-menu-lat").classList.toggle('hide-menu-lateral');
         }, 500);
     }else{
         buttonHide.innerHTML = `<img src="icons/seta-direita.png">`;
-        document.getElementById("conteudo-menu-lat").classList.toggle('hide-menu-lateral1');
+        document.getElementById("conteudo-menu-lat").classList.toggle('hide-menu-lateral');
     }
     document.getElementById("menu-lateral").classList.toggle('hide-menu-lateral');
     document.getElementById("mapa").classList.toggle('hide-menu-lateral2');
@@ -254,22 +264,17 @@ buttonHide.addEventListener("click", function(){
 
 async function mostrarPontosTuristicos(url) {
     var response;
-
     try {
         response = await fetch(url);
     } catch (e) {
         msg_erro_list_menu.style.display = "block";
-        msg_erro_list_menu.innerText = "Houve um erro no servidor, por favor tente mais tarde."
+        msg_erro_list_menu.innerText = "Houve um erro no servidor, por favor tente mais tarde.";
     }
      
     var data = await response.json();
 
-    resetarTodosComponentes();
-    divMenu.style.display = "block";
     map.setView(center, 15, {animate: true});
-
     ultima_pagina = data.meta.last_page;
-
     if(data.meta.last_page > 1){
         botoesPass.style.display = "flex";
     }
@@ -277,21 +282,23 @@ async function mostrarPontosTuristicos(url) {
     list_menu.innerHTML = "";
 
     data.data.map((pontoturistico) =>{
-        
-        list_menu.innerHTML = list_menu.innerHTML + `<button id="PontoTuristicoId${pontoturistico.id}" type="button"class="list-group-item list-group-item-action">${pontoturistico.titulo}</button>`;
-
-        document.addEventListener("click", async (e) => {
-            const target = e.target.closest(`#PontoTuristicoId${pontoturistico.id}`);
-            
-            if(target){
-                mostrarPontoTuristico(pontoturistico.id);
-            }
-          });
+        list_menu.innerHTML = list_menu.innerHTML + `<button id="PontoTuristicoId${pontoturistico.id}" type="button" class="list-group-item list-group-item-action btn-list-group-item">${pontoturistico.titulo}</button>`;
     });
+
+    let menu = document.querySelectorAll('.btn-list-group-item');
+
+    for(let element of menu){
+        let ponto_id = element.id.slice(16);
+        element.addEventListener("click", () => {
+            resetarTodosComponentes();
+            mostrarConteudo.style.display = "block";
+            div_fora_mostrarConteudo.style.display = "block";
+            mostrarPontoTuristico(ponto_id);
+        });
+    }
 }
 
 async function mostrarPontoTuristico(id){
-    resetarTodosComponentes();
     botaoVoltar.style.display = "block";
     botaoNavegar.style.display = "block";
     msgErroDeletarPonto.style.display = "none";
@@ -300,7 +307,6 @@ async function mostrarPontoTuristico(id){
     
     const ponto = await responsePontoTuristico.json();
 
-    mostrarConteudo.style.display = "block";
     btn_remover_p_turistico.style.display = "none";
     tituloPontoTuristico.innerText = ponto.data.titulo;
     descricaoPontoTurisitico.innerText = ponto.data.descricao;
@@ -329,14 +335,17 @@ async function mostrarPontoTuristico(id){
         btn_remover_p_turistico.style.display = "block";
     }
 
-    marker = L.marker([lati, longi], {
-        title: `${ponto_titulo}`,
-        icon: markerRed
-    });
-    layerGroupMarkers.addLayer(marker);
-    map.removeLayer(layerGroupMarkers);
-    layerGroupMarkers.addTo(map);
-    map.setView([lati, longi], 15, {animate: true});
+    if(div_fora_mostrarConteudo.style.display == "block"){
+        marker = L.marker([lati, longi], {
+            title: `${ponto_titulo}`,
+            icon: markerRed
+        });
+        layerGroupMarkers.addLayer(marker);
+        map.removeLayer(layerGroupMarkers);
+        layerGroupMarkers.addTo(map);
+        map.setView([lati, longi], 15, {animate: true});
+    }
+    
 }
 
 botaoEsq.addEventListener("click", function(){
@@ -357,6 +366,7 @@ botaoDir.addEventListener("click", function(){
 
 botao_login.addEventListener("click", function(){
     resetarTodosComponentes();
+    div_fora_formulario_login.style.display = "block";
     div_formulario_login.style.display = "block";
     botaoVoltar.style.display = "block";
     menu_usuario.style.display = "none";
@@ -482,6 +492,7 @@ btn_add_ponto.addEventListener("click", function(){
     btn_add_usuario.style.display = "none";
     botaoVoltar.style.display = "block";
     add_ponto_turistico_marker = true;
+    div_fora_add_ponto_turistico.style.display = "block";
     div_add_ponto_turistico.style.display = "block";
     mensagem_cad_ponto_turistico.style.display = "none";
 });
@@ -491,6 +502,7 @@ btn_add_usuario.addEventListener("click", function(){
     btn_add_ponto.style.display = "none";
     btn_add_usuario.style.display = "none";
     botaoVoltar.style.display = "block";
+    div_fora_add_usuario.style.display = "block";
     div_add_usuario.style.display = "block";
     mensagem_cad_usuario.style.display = "none";
     mensagem_cad_ponto_turistico.style.display = "none";
@@ -498,6 +510,7 @@ btn_add_usuario.addEventListener("click", function(){
 
 function resetarTodosComponentes() {
     divMenu.style.display = "none";
+    div_fora_menu_inicial.style.display = "none";
     botaoVoltar.style.display = "none";
     botaoNavegar.style.display = "none";
     botaoVoltarRota.style.display = "none";
@@ -521,6 +534,11 @@ function resetarTodosComponentes() {
     campo_login.value = "";
     campo_senha.value = "";
     document.getElementById('map').style.cursor = '';
+    div_fora_add_ponto_turistico.style.display = "none";
+    div_fora_add_usuario.style.display = "none";
+    div_fora_formulario_login.style.display = "none";
+    div_fora_localizationFormat.style.display = "none";
+    div_fora_mostrarConteudo.style.display = "none";
 }
 
 form_add_ponto_turistico.addEventListener("submit", async (e) => {
@@ -601,8 +619,6 @@ form_add_ponto_turistico.addEventListener("submit", async (e) => {
 
 form_add_usuario.addEventListener("submit", async (e) => {
     e.preventDefault();
-    
-    console.log(addU_admin.checked);
 
     var dadosUsuario = {
         nome: addU_nome.value,
@@ -664,7 +680,7 @@ map.on('mouseover', function(e){
     if(add_ponto_turistico_marker == true){
         document.getElementById('map').style.cursor = 'pointer';
     }
-})
+});
 
 cancelar_salvar_ponto.addEventListener('click', () => {
     div_add_ponto_marcador.style.display = "block";
